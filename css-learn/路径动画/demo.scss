@@ -1,0 +1,44 @@
+html {
+  box-sizing: border-box;
+  height: 100vh;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: aliceblue;
+}
+.wrapper {
+  margin: 0 auto;
+  width: 1200px;
+  font-size: 20px;
+}
+
+ul {
+  display: flex;
+  margin: 100px auto;
+}
+li {
+  flex: 1;
+  list-style: none;
+}
+
+a {
+  display: inline-block;
+  color: #333;
+  text-decoration: none;
+  padding: 5px 13px;
+  font-size: 16px;
+}
+
+.highlight {
+  border-bottom: 2px solid white;
+  position: absolute;
+  top: 0;
+  background-color: #fff;
+  left: 0;
+  z-index: -1;
+  border-radius: 20px;
+  display: block;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}

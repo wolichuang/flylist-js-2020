@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="side">
+        <!-- <a href="#" draggable="true" id="seat1">座位1</a> -->
+        <a href="#" draggable="true" id="seat2">座位2</a>
+        <a href="#" draggable="true" id="seat3">座位3</a>
+      </div>
+      <div class="view" draggable="true">
+        <a href="#" draggable="true" id="seat1">座位1</a>
+      </div>
+    </div>
+    <script>
+      var sideA = document.querySelectorAll('.side a');
+      var dragSrcEl = null;
+      [].forEach.call(sideA, function (element, index) {
+        element.style.top = (element.style.height + 100) * index + 'px';
+        checkDrag(element);
+      });
+      function handleDragStart(e) {
+        dragSrcEl = this;
+        // X = e.clientX; //记录鼠标点下的位置。(因为div的定位点，是左上角 0，0)
+        // Y = e.clientY;
+        let dt = e.dataTransfer;
+        dt.effectAllowed = 'all';
+        e.dataTransfer.setData('text/html', e.target.id);
+        // console.log(1, e.dataTransfer.getData('text/html'));
+      }
+      function handleDragEnter(e) {
+        // e.preventDefault();
+      }
+      function handleDragOver(e) {
+        e.preventDefault();
+      }
+      function handleDragLeave(e) {
+        //
+      }
+      function handleDrop(e) {
+        console.log(2);
+        // e.stopPropagation(); // Stops some
+        // console.log(2, e.dataTransfer.getData('text/html'));
+        // var dt = e.dataTransfer;
+        // var id = dt.getData('text/html');
+        // var item = document.getElementById(id);
+        // console.log(id);
+        // e.target.appendChild(item);
+      }
+      function handleDragEnd(e) {
+        console.log(4);
+        e.stopPropagation(); // Stops some
+        console.log(2, e.dataTransfer.getData('text/html'));
+        var dt = e.dataTransfer;
+        var id = dt.getData('text/html');
+        var item = document.getElementById(id);
+        console.log(id);
+        e.target.appendChild(item);
+      }
+      function checkDrag(element) {
+        element.addEventListener('dragstart', handleDragStart, false);
+        element.addEventListener('dragenter', handleDragEnter, false);
+        element.addEventListener('dragover', handleDragOver, false);
+        element.addEventListener('dragleave', handleDragLeave, false);
+        element.addEventListener('drop', handleDrop, false);
+        element.addEventListener('dragend', handleDragEnd, false);
+        // element.ondragend = function (e) {
+        //   e.target.appendChild(item);
+        //   var X1 = e.clientX - X; //结束的位置，减去鼠标点下的位置，那么得到的位置，就是div落下的位置。
+        //   var Y1 = e.clientY - Y;
+        //   element.style.left = element.offsetLeft + X1 + 'px';
+        //   element.style.top = element.offsetTop + Y1 + 'px';
+        // };
+        // element.ondrop = function (e) {
+        //   console.log(2, e.dataTransfer.getData('text/html'));
+        //   var dt = e.dataTransfer;
+        //   var id = dt.getData('text/html');
+        //   var item = document.getElementById(id);
+        //   console.log(id);
+        //   e.target.appendChild(item);
+        // };
+      }
+    </script>
+  </body>
+</html>

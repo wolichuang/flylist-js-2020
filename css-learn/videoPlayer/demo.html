@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./dist/demo.css" />
+  </head>
+  <body>
+    <div class="player">
+      <video src="./video.mp4" class="player_video"></video>
+      <div class="player_controls">
+        <div class="progress">
+          <div class="progress_fill"></div>
+        </div>
+        <button class="player_button toggle" title="Toggle Play">►</button>
+        <input
+          type="range"
+          class="player_range"
+          name="playbackRate"
+          min="0.5"
+          max="2"
+          step="0.1"
+          value="1"
+        />
+        <button data-skip="-10" class="player_button">« 10s</button>
+        <button data-skip="25" class="player_button">25s »</button>
+      </div>
+    </div>
+    <script type="text/javascript">
+      const player = document.querySelector('.player');
+      const video = document.querySelector('.player_video');
+      const toggle = document.querySelector('.toggle');
+      const progress = document.querySelector('.progress');
+      const progressBar = document.querySelector('.progress_fill');
+      const ranges = player.querySelectorAll('.player_range');
+      const skipButtons = player.querySelectorAll('[data-skip]');
+      // 播放 or 暂停
+      function toggleVideo() {
+        const methods = video.paused ? 'play' : 'pause';
+        video[methods]();
+      }
+      function updateButton() {
+        const image = this.paused ? '►' : '❚ ❚';
+        toggle.textContent = image;
+      }
+
+      // 更新进度条
+      function handleProgress() {
+        const percent = (video.currentTime / video.duration) * 100;
+        // progressBar.style.width = `${percent}%`;
+        progressBar.style.flexBasis = `${percent}%`;
+      }
+
+      // 控制音量
+      function handleRangeUpdate() {
+        video[this.name] = this.value;
+      }
+
+      // 控制跳转进度
+      function skip() {
+        video.currentTime += parseFloat(this.dataset.skip);
+      }
+
+      // 控制播放
+      video.addEventListener('click', toggleVideo);
+      video.addEventListener('play', updateButton);
+      video.addEventListener('pause', updateButton);
+      toggle.addEventListener('click', toggleVideo);
+
+      // 控制进度条
+      video.addEventListener('timeupdate', handleProgress);
+      function moveTime(e) {
+        const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+        video.currentTime = scrubTime;
+      }
+      let mousedown = false;
+      progress.addEventListener('click', moveTime);
+      progress.addEventListener('mousemove', (e) => mousedown && moveTime(e));
+      progress.addEventListener('mousedown', () => (mousedown = true));
+      progress.addEventListener('mouseup', () => (mousedown = false));
+
+      // 控制音量
+      ranges.forEach((range) =>
+        range.addEventListener('change', handleRangeUpdate)
+      );
+      ranges.forEach((range) =>
+        range.addEventListener('mousemove', handleRangeUpdate)
+      );
+
+      // 控制跳转
+      skipButtons.forEach((button) => button.addEventListener('click', skip));
+    </script>
+  </body>
+</html>

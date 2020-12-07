@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./dist/demo.css" />
+  </head>
+  <body>
+    <button onClick="handleStart()">start</button>
+    <h2 class="score">0</h2>
+    <div class="game">
+      <div class="hole hole1">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole2">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole3">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole4">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole5">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole6">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole7">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole8">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole9">
+        <div class="mole"></div>
+      </div>
+    </div>
+    <script>
+      const holes = document.querySelectorAll('.hole');
+      const scoreBoard = document.querySelector('.score');
+      const moles = document.querySelectorAll('.mole');
+      let last;
+      let timeUp = false;
+      let score = 0;
+      // 随机洞穴
+      function randomHole(holes) {
+        var random = Math.floor(Math.random() * holes.length);
+        const hole = holes[random];
+        if (hole === last) {
+          return randomHole(holes);
+        }
+        lastHole = hole;
+        return hole;
+      }
+      // 随机数
+      function mathRandoms(max, min) {
+        return Math.round(Math.random() * (max - min) + min);
+      }
+      function livingPeep() {
+        const timer = mathRandoms(2000, 500);
+        const hole = randomHole(holes);
+        hole.classList.add('up');
+        // 循环弹出框
+        window.setTimeout(() => {
+          hole.classList.remove('up');
+          if (!timeUp) livingPeep();
+        }, timer);
+      }
+      // 开始弹出
+      function handleStart() {
+        scoreBoard.textContent = 0;
+        timeUp = false;
+        score = 0;
+        livingPeep();
+        setTimeout(() => {
+          timeUp = true;
+          alert('时间到');
+        }, 10000);
+      }
+      function biubiu(event) {
+        score++; // 积分
+        this.parentNode.classList.remove('up');
+        scoreBoard.textContent = score; // 积分
+      }
+
+      // 点击计数
+      moles.forEach((mole) => {
+        mole.addEventListener('click', biubiu);
+      });
+    </script>
+  </body>
+</html>

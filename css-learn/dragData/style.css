@@ -1,0 +1,60 @@
+body {
+  display: flex;
+  background: #fff;
+  height: 100%;
+}
+ul li {
+  list-style: none;
+}
+a {
+  color: #333;
+  text-decoration: none;
+}
+a:hover,
+a:active {
+  text-decoration: none;
+}
+
+.wrap {
+  display: flex;
+  width: 1200px;
+  margin: 20px auto;
+  height: calc(100vh - 40px);
+}
+.side {
+  position: relative;
+  flex: 1;
+}
+.view {
+  position: relative;
+  flex: 3;
+  border: 3px dotted #ededed;
+  height: 100%;
+}
+.side a,
+.view a {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  text-align: center;
+  height: 60px;
+  line-height: 60px;
+  margin-bottom: 20px;
+}
+
+.view a:nth-of-type(1),
+.side a:nth-of-type(1) {
+  width: 80%;
+  border: 1px solid #edf432;
+}
+.view a:nth-of-type(2),
+.side a:nth-of-type(2) {
+  width: 80%;
+  border: 1px solid green;
+}
+.view a:nth-of-type(3),
+.side a:nth-of-type(3) {
+  width: 80%;
+  border: 1px solid sienna;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.1.0/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      axios
+        .get('http://10.2.98.231:2000/image-code')
+        .then(function (res) {
+          document.getElementById('app').innerHTML = JSON.stringify(res.data);
+          console.log(res.data);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>

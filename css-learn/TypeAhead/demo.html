@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="dist/demo.css" />
+  </head>
+  <body>
+    <div class="search-form">
+      <input type="text" name="" class="search" id="" placeholder="Address" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </div>
+    <script>
+      const endpoint =
+        'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+      const endData = [];
+      const searchInput = document.querySelector('.search');
+      const suggestions = document.querySelector('.suggestions');
+      fetch(endpoint)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (myJson) {
+          endData.push(...myJson);
+        });
+      // 过滤字符串
+      function findWords(word, endData) {
+        return endData.filter((item) => {
+          const regex = new RegExp(word, 'gi');
+          return item.city.match(regex) || item.state.match(regex);
+        });
+      }
+
+      // 显示内容
+      function dislayHtml() {
+        const matchArray = findWords(this.value, endData);
+        const html = matchArray
+          .map((element) => {
+            const regex = new RegExp(this.value, 'gi');
+            const cityName = element.city.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            const stateName = element.state.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            return `
+          <li>
+            <span class="name">${cityName}, ${stateName}</span>
+          </li>
+          `;
+          })
+          .join('');
+        suggestions.innerHTML = html;
+      }
+
+      searchInput.addEventListener('change', dislayHtml);
+      searchInput.addEventListener('keyup', dislayHtml);
+    </script>
+  </body>
+</html>
